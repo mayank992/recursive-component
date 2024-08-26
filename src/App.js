@@ -1,7 +1,6 @@
 import React from 'react';
+import { FileExplorer } from './components/fileExplorer';
 
-export default function App() {
-  return (
-    <h1>Hello World</h1>
-  );
+export default function App({ data, onFileSelect }) {
+  return <FileExplorer data={data} onFileSelect={onFileSelect} />;
 }
