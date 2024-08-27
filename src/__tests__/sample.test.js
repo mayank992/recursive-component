@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import App from '../App';
+import { FileExplorer } from '../components/fileExplorer';
 
 import { toggleFolder } from './helpers';
 
@@ -26,7 +26,7 @@ const fileSystemData = [
 describe('Sample Tests', () => {
   // Test for rendering top-level nodes
   test('renders the correct number of top-level nodes', () => {
-    render(<App data={fileSystemData} onFileSelect={() => {}} />);
+    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
 
@@ -36,7 +36,7 @@ describe('Sample Tests', () => {
 
   // Test for toggling folder expansion
   test('toggles folder expansion correctly', () => {
-    render(<App data={fileSystemData} onFileSelect={() => {}} />);
+    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
     toggleFolder('Documents'); // Expand Documents
@@ -51,7 +51,9 @@ describe('Sample Tests', () => {
   // Test for file selection callback
   test('calls onFileSelect with the correct file id', () => {
     const mockOnFileSelect = jest.fn();
-    render(<App data={fileSystemData} onFileSelect={mockOnFileSelect} />);
+    render(
+      <FileExplorer data={fileSystemData} onFileSelect={mockOnFileSelect} />
+    );
 
     toggleFolder('Root'); // Expand Root
     const notesFile = screen.getByText(/Notes.txt/);

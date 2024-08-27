@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import App from '../App';
+import { FileExplorer } from '../components/fileExplorer';
 
 import { toggleFolder } from './helpers';
 
@@ -38,7 +38,7 @@ const fileSystemData = [
 describe('Main Tests', () => {
   // Test for rendering top-level nodes
   test('renders the correct number of top-level nodes', () => {
-    render(<App data={fileSystemData} onFileSelect={() => {}} />);
+    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
 
@@ -51,7 +51,7 @@ describe('Main Tests', () => {
 
   // Test for toggling folder expansion and preserving state
   test('toggles folder expansion correctly and preserves state', () => {
-    render(<App data={fileSystemData} onFileSelect={() => {}} />);
+    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
     toggleFolder('Documents'); // Expand Documents
@@ -71,7 +71,9 @@ describe('Main Tests', () => {
   // Test for file selection callback
   test('calls onFileSelect with the correct file id', () => {
     const mockOnFileSelect = jest.fn();
-    render(<App data={fileSystemData} onFileSelect={mockOnFileSelect} />);
+    render(
+      <FileExplorer data={fileSystemData} onFileSelect={mockOnFileSelect} />
+    );
 
     toggleFolder('Root'); // Expand Root
     const notesFile = screen.getByText('Notes.txt');
@@ -82,7 +84,7 @@ describe('Main Tests', () => {
 
   // Test for independent folder state management
   test('maintains state independently across nested folders', () => {
-    render(<App data={fileSystemData} onFileSelect={() => {}} />);
+    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
 
@@ -104,7 +106,7 @@ describe('Main Tests', () => {
 
   // Test to check that clicking on an already expanded folder does not reset the state of its children
   test('does not reset child state when toggling parent folder', () => {
-    render(<App data={fileSystemData} onFileSelect={() => {}} />);
+    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
     toggleFolder('Documents'); // Expand Documents

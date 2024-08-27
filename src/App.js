@@ -1,6 +1,8 @@
 import React from 'react';
 import { FileExplorer } from './components/fileExplorer';
 
-export default function App({ data, onFileSelect }) {
-  return <FileExplorer data={data} onFileSelect={onFileSelect} />;
+import { data } from './mock';
+
+export default function App() {
+  return <FileExplorer data={data} onFileSelect={() => {}} />;
 }
