@@ -8,7 +8,7 @@ export const FileExplorer = ({ data, onFileSelect }) => {
 
         if (datum.type === 'FOLDER') {
           return (
-            <div>
+            <div key={datum.id}>
               <button
                 className="folder-header"
                 onClick={() => {
@@ -25,7 +25,7 @@ export const FileExplorer = ({ data, onFileSelect }) => {
         }
 
         return (
-          <button className="file" onClick={() => onFileSelect(datum.id)}>{datum.name}</button>
+          <button key={datum.id} className="file" onClick={() => onFileSelect(datum.id)}>{datum.name}</button>
         );
       })}
     </div>
