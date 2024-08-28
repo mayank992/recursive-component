@@ -1,5 +1,11 @@
+// libs
 import React from 'react';
+
+// components
 import { FileExplorer } from './components/fileExplorer';
+
+// styles
+import './styles.css';
 
 import { data } from './mock';
 

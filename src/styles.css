@@ -1,0 +1,26 @@
+html {
+  font-family: sans-serif;
+  text-align: left;
+}
+
+body {
+  margin: 16px;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.folder-header {
+  padding: 0 4px 0 4px;
+  display: flex;
+  align-items: center;
+}
+
+.folder-content {
+  margin-left: 16px;
+}
+
+.file {
+  padding: 0 4px 0 4px;
+  margin-left: 12px;
+}

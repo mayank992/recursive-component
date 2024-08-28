@@ -17,13 +17,13 @@ data: An array representing the file system structure. Each element in the array
 File Object:
 
 - id (number): A unique identifier for the file.
-- type (string): Should be "file".
+- type (string): Should be "FILE".
 - name (string): The name of the file.
 
 Folder Object:
 
 - id (number): A unique identifier for the folder.
-- type (string): Should be "folder".
+- type (string): Should be "FOLDER".
 - name (string): The name of the folder.
 - children (array): An array containing files or folders that are inside this folder.
 
@@ -32,7 +32,7 @@ onFileSelect: A callback function that gets called when a file is selected. The 
 Component Behavior:
 
 1. The FileExplorer component should render the data prop recursively, displaying folders and files in a nested structure.
-2. Folders: Can be expanded or collapsed by clicking on them. When expanded, the folder's children (files and subfolders) should be visible. When collapsed, the children should be hidden.
+2. Folders: Initial state of folder should be collapsed. Can be expanded or collapsed by clicking on them. When expanded, the folder's children (files and subfolders) should be visible. When collapsed, the children should be hidden.
 3. Files: Clicking on a file should trigger the onFileSelect callback, passing the file's id.
 4. The expanded/collapsed state of each folder should be maintained independently, meaning that expanding one folder does not affect the state of other folders.
 5. If a folder is collapsed and then re-expanded, the previously expanded/collapsed state of its child folders should be retained.
