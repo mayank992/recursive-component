@@ -1,10 +1,3 @@
-## Submission Instructions
-
-1. Clicking "Run code" will compile and run your code against sample tests, but it will not generate scores. Click on "Execution Log" to better understand the test execution.
-2. Clicking "Submit code" will run your code against multiple test cases, assessing different scenarios holistically. The score will be assigned accordingly.
-
-To access the instructions, click on the "Question" button which can be found in the bottom left corner of the screen.
-
 ### Problem Statement
 
 You need to implement a FileExplorer component in React that mimics the behavior of a typical file explorer system. This component should display a nested file and folder structure, provided as input data, with functionality for expanding/collapsing folders and selecting files.
@@ -36,3 +29,10 @@ Component Behavior:
 3. Files: Clicking on a file should trigger the onFileSelect callback, passing the file's id.
 4. The expanded/collapsed state of each folder should be maintained independently, meaning that expanding one folder does not affect the state of other folders.
 5. If a folder is collapsed and then re-expanded, the previously expanded/collapsed state of its child folders should be retained.
+
+## Submission Instructions
+
+1. Clicking "Run code" will compile and run your code against sample tests, but it will not generate scores. Click on "Execution Log" to better understand the test execution.
+2. Clicking "Submit code" will run your code against multiple test cases, assessing different scenarios holistically. The score will be assigned accordingly.
+
+To access the instructions, click on the "Question" button which can be found in the bottom left corner of the screen.
