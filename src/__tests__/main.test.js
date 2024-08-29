@@ -37,7 +37,7 @@ const fileSystemData = [
 
 describe('Main Tests', () => {
   // Test for rendering top-level nodes
-  test('renders the correct number of top-level nodes', () => {
+  test('Test 1', () => {
     render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
@@ -50,7 +50,7 @@ describe('Main Tests', () => {
   });
 
   // Test for toggling folder expansion and preserving state
-  test('toggles folder expansion correctly and preserves state', () => {
+  test('Test 2', () => {
     render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
@@ -69,7 +69,7 @@ describe('Main Tests', () => {
   });
 
   // Test for file selection callback
-  test('calls onFileSelect with the correct file id', () => {
+  test('Test 3', () => {
     const mockOnFileSelect = jest.fn();
     render(
       <FileExplorer data={fileSystemData} onFileSelect={mockOnFileSelect} />
@@ -83,7 +83,7 @@ describe('Main Tests', () => {
   });
 
   // Test for independent folder state management
-  test('maintains state independently across nested folders', () => {
+  test('Test 4', () => {
     render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
@@ -105,7 +105,7 @@ describe('Main Tests', () => {
   });
 
   // Test to check that clicking on an already expanded folder does not reset the state of its children
-  test('does not reset child state when toggling parent folder', () => {
+  test('Test 5', () => {
     render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
