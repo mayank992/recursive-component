@@ -1,9 +1,9 @@
+// libs
 import React from 'react';
 
-// icons
-import fileIcon from '../../public/file.png';
-import folderIcon from '../../public/folder.png';
-import openFolderIcon from '../../public/open-folder.png';
+// components
+import { File } from './File';
+import { Folder } from './Folder';
 
 export const FileExplorer = ({ data, onFileSelect }) => {
   return (
@@ -11,35 +11,15 @@ export const FileExplorer = ({ data, onFileSelect }) => {
       <ul>
         {data.map((datum) => {
           if (datum.type === 'FOLDER') {
-            const isExpanded = false;
-
             return (
-              <div key={datum.id}>
-                <li
-                  onClick={() => {
-                    // handle toggle
-                  }}
-                >
-                  <img
-                    className="folder-icon"
-                    src={isExpanded ? openFolderIcon : folderIcon}
-                  />
-                  {datum.name}
-                </li>
-                {isExpanded ? (
-                  <div className="folder-content nested">
-                    Render children here...
-                  </div>
-                ) : null}
-              </div>
+              <Folder key={datum.id} isExpanded={false} name={datum.name}>
+                Render children here...
+              </Folder>
             );
           }
 
           return (
-            <li key={datum.id} onClick={() => onFileSelect(datum.id)}>
-              <img className="file-icon" src={fileIcon} />
-              {datum.name}
-            </li>
+            <File id={datum.id} name={datum.name} onClick={onFileSelect} />
           );
         })}
       </ul>

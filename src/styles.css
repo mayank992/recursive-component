@@ -8,10 +8,13 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: #ffffff;
+
+  display: flex;
+  justify-content: center;
 }
 
 .file-explorer {
-  max-width: 400px;
+  width: 400px;
   background-color: #f7f7f7;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -22,24 +25,20 @@ body {
   list-style: none;
 }
 
-.file-explorer li {
+.file-explorer .file,
+.folder-header {
   padding: 4px 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
 }
 
-.file-explorer li:hover {
+.file-explorer .file:hover,
+.folder-header:hover {
   background-color: #eaeaea;
 }
 
-.file-explorer .folder-icon {
-  width: 16px;
-  height: 16px;
-  margin-right: 8px;
-}
-
-.file-explorer .file-icon {
+.file-explorer .icon {
   width: 16px;
   height: 16px;
   margin-right: 8px;
@@ -47,6 +46,6 @@ body {
 
 .file-explorer .nested {
   margin-left: 20px;
-  border-left: 1px dashed #ccc;
   padding-left: 10px;
+  border-left: 1px dashed #ccc;
 }
