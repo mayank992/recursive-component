@@ -19,7 +19,7 @@ export const FileExplorer = ({ data, onFileSelect }) => {
           }
 
           return (
-            <File id={datum.id} name={datum.name} onClick={onFileSelect} />
+            <File key={datum.id} id={datum.id} name={datum.name} onClick={onFileSelect} />
           );
         })}
       </ul>
