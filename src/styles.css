@@ -4,23 +4,49 @@ html {
 }
 
 body {
-  margin: 16px;
+  padding: 16px;
   width: 100vw;
   height: 100vh;
   background-color: #ffffff;
 }
 
-.folder-header {
-  padding: 0 4px 0 4px;
+.file-explorer {
+  max-width: 400px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+}
+
+.file-explorer ul {
+  list-style: none;
+}
+
+.file-explorer li {
+  padding: 4px 8px;
+  cursor: pointer;
   display: flex;
   align-items: center;
 }
 
-.folder-content {
-  margin-left: 16px;
+.file-explorer li:hover {
+  background-color: #eaeaea;
 }
 
-.file {
-  padding: 0 4px 0 4px;
-  margin-left: 12px;
+.file-explorer .folder-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.file-explorer .file-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.file-explorer .nested {
+  margin-left: 20px;
+  border-left: 1px dashed #ccc;
+  padding-left: 10px;
 }

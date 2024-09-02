@@ -1,33 +1,48 @@
 import React from 'react';
 
+// icons
+import fileIcon from '../../public/file.png';
+import folderIcon from '../../public/folder.png';
+import openFolderIcon from '../../public/open-folder.png';
+
 export const FileExplorer = ({ data, onFileSelect }) => {
   return (
-    <div>
-      {data.map((datum) => {
-        const isExpanded = false;
+    <div className="file-explorer">
+      <ul>
+        {data.map((datum) => {
+          if (datum.type === 'FOLDER') {
+            const isExpanded = false;
 
-        if (datum.type === 'FOLDER') {
-          return (
-            <div key={datum.id}>
-              <button
-                className="folder-header"
-                onClick={() => {
-                  // handle toggle
-                }}
-              >
-                {isExpanded ? '-' : '+'} {datum.name}
-              </button>
-              <div className="folder-content">
-                {isExpanded ? 'Render children here...' : null}
+            return (
+              <div key={datum.id}>
+                <li
+                  onClick={() => {
+                    // handle toggle
+                  }}
+                >
+                  <img
+                    className="folder-icon"
+                    src={isExpanded ? openFolderIcon : folderIcon}
+                  />
+                  {datum.name}
+                </li>
+                {isExpanded ? (
+                  <div className="folder-content nested">
+                    Render children here...
+                  </div>
+                ) : null}
               </div>
-            </div>
-          );
-        }
+            );
+          }
 
-        return (
-          <button key={datum.id} className="file" onClick={() => onFileSelect(datum.id)}>{datum.name}</button>
-        );
-      })}
+          return (
+            <li key={datum.id} onClick={() => onFileSelect(datum.id)}>
+              <img className="file-icon" src={fileIcon} />
+              {datum.name}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };
