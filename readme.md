@@ -30,6 +30,12 @@ Component Behavior:
 4. The expanded/collapsed state of each folder should be maintained independently, meaning that expanding one folder does not affect the state of other folders.
 5. If a folder is collapsed and then re-expanded, the previously expanded/collapsed state of its child folders should be retained.
 
+<br>
+<div style="border: 1px solid #ddd; border-radius: 5px; padding: 2px; display: inline-block;">
+  <img src="https://github.com/mayank992/Assets/blob/main/assessments/file_explorer.gif?raw=true" alt="Expected Behaviour" style="width: 400px; height: auto;"/>
+</div>
+<br>
+
 ## Submission Instructions
 
 1. Clicking "Run code" will compile and run your code against sample tests, but it will not generate scores. Click on "Execution Log" to better understand the test execution.
