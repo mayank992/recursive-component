@@ -1,12 +1,15 @@
+// libs
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
+// components
 import { FileExplorer } from '../components/fileExplorer';
 
+// helpers
 import { toggleFolder } from './helpers';
 
-const fileSystemData = [
+const DATA = [
   {
     id: 1,
     type: 'FOLDER',
@@ -26,34 +29,33 @@ const fileSystemData = [
 describe('Sample Tests', () => {
   // Test for rendering top-level nodes
   test('renders the correct number of top-level nodes', () => {
-    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
+    render(<FileExplorer data={DATA} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
 
-    const topLevelNodes = screen.getAllByText(/Root|Documents|Notes.txt/);
-    expect(topLevelNodes).toHaveLength(3); // Root, Documents, and Notes.txt
+    // Root, Documents, and Notes.txt should be visible
+    expect(screen.getByText('Root')).toBeVisible();
+    expect(screen.getByText('Documents')).toBeVisible();
+    expect(screen.getByText('Notes.txt')).toBeVisible();
   });
 
   // Test for toggling folder expansion
   test('toggles folder expansion correctly', () => {
-    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
+    render(<FileExplorer data={DATA} onFileSelect={() => {}} />);
 
     toggleFolder('Root'); // Expand Root
     toggleFolder('Documents'); // Expand Documents
 
-    const resumeFile = screen.getByText(/Resume.docx/);
-    expect(resumeFile).toBeInTheDocument(); // Resume.docx should be visible
+    expect(screen.getByText(/Resume.docx/)).toBeVisible(); // Resume.docx should be visible
 
     toggleFolder('Documents'); // Collapse Documents
-    expect(resumeFile).not.toBeVisible(); // Resume.docx should be hidden
+    expect(screen.queryByText(/Resume.docx/)).toBeNull(); // Resume.docx should be hidden
   });
 
   // Test for file selection callback
   test('calls onFileSelect with the correct file id', () => {
     const mockOnFileSelect = jest.fn();
-    render(
-      <FileExplorer data={fileSystemData} onFileSelect={mockOnFileSelect} />
-    );
+    render(<FileExplorer data={DATA} onFileSelect={mockOnFileSelect} />);
 
     toggleFolder('Root'); // Expand Root
     const notesFile = screen.getByText(/Notes.txt/);

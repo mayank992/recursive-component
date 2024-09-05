@@ -1,122 +1,155 @@
+// libs
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
+// components
 import { FileExplorer } from '../components/fileExplorer';
 
+// helpers
 import { toggleFolder } from './helpers';
 
-const fileSystemData = [
+const DATA = [
   {
     id: 1,
     type: 'FOLDER',
-    name: 'Root',
+    name: 'Home',
     children: [
       {
         id: 2,
         type: 'FOLDER',
         name: 'Documents',
         children: [
-          { id: 3, type: 'FILE', name: 'Resume.docx' },
-          { id: 4, type: 'FILE', name: 'CoverLetter.docx' },
+          {
+            id: 3,
+            type: 'FOLDER',
+            name: 'Work',
+            children: [
+              { id: 4, type: 'FILE', name: 'Project.docx' },
+              { id: 5, type: 'FILE', name: 'Report.pdf' },
+            ],
+          },
+          { id: 6, type: 'FILE', name: 'Resume.docx' },
+          { id: 7, type: 'FILE', name: 'CoverLetter.docx' },
         ],
       },
       {
-        id: 5,
+        id: 8,
         type: 'FOLDER',
         name: 'Photos',
         children: [
-          { id: 6, type: 'FILE', name: 'Vacation.jpg' },
-          { id: 7, type: 'FILE', name: 'Family.png' },
+          {
+            id: 9,
+            type: 'FOLDER',
+            name: 'Vacations',
+            children: [
+              { id: 10, type: 'FILE', name: 'Beach.jpg' },
+              { id: 11, type: 'FILE', name: 'Mountains.png' },
+            ],
+          },
+          { id: 12, type: 'FILE', name: 'Family.png' },
         ],
       },
-      { id: 8, type: 'FILE', name: 'Notes.txt' },
+      { id: 13, type: 'FILE', name: 'Notes.txt' },
     ],
   },
+  { id: 14, type: 'FILE', name: '.zshrc' },
 ];
 
 describe('Main Tests', () => {
-  // Test for rendering top-level nodes
+  // Test to check deeply nested files and folders should render correctly
   test('Test 1', () => {
-    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
+    render(<FileExplorer data={DATA} onFileSelect={() => {}} />);
 
-    toggleFolder('Root'); // Expand Root
+    // Home and .zshrc should be visible
+    expect(screen.getByText('Home')).toBeVisible();
+    expect(screen.getByText('.zshrc')).toBeVisible();
 
-    const topLevelNodes = screen.getAllByText(
-      /Root|Documents|Photos|Notes.txt/
-    );
+    toggleFolder('Home'); // Expand Home
+    toggleFolder('Documents'); // Expand Documents
+    toggleFolder('Work'); // Expand Work
 
-    expect(topLevelNodes).toHaveLength(4); // Root, Documents, Photos, and Notes.txt
+    // Both Project.docx and Report.pdf should be visible
+    expect(screen.getByText('Project.docx')).toBeVisible();
+    expect(screen.getByText('Report.pdf')).toBeVisible();
+
+    toggleFolder('Photos'); // Expand Photos
+    toggleFolder('Vacations'); // Expand Vacations
+
+    // Both Beach.jpg and Mountains.png should be visible
+    expect(screen.getByText('Beach.jpg')).toBeVisible();
+    expect(screen.getByText('Mountains.png')).toBeVisible();
   });
 
-  // Test for toggling folder expansion and preserving state
+  // Test for file selection deeper in the nested structure
   test('Test 2', () => {
-    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
-
-    toggleFolder('Root'); // Expand Root
-    toggleFolder('Documents'); // Expand Documents
-    const resumeFile = screen.getByText('Resume.docx');
-    expect(resumeFile).toBeInTheDocument(); // Resume.docx should be visible
-
-    toggleFolder('Photos'); // Expand Photos
-    expect(screen.getByText('Vacation.jpg')).toBeInTheDocument(); // Vacation.jpg should be visible
-
-    toggleFolder('Documents'); // Collapse Documents
-    expect(resumeFile).not.toBeVisible(); // Resume.docx should be hidden
-
-    toggleFolder('Documents'); // Expand Documents
-    expect(screen.getByText('Resume.docx')).toBeInTheDocument(); // Resume.docx should be visible
-  });
-
-  // Test for file selection callback
-  test('Test 3', () => {
     const mockOnFileSelect = jest.fn();
-    render(
-      <FileExplorer data={fileSystemData} onFileSelect={mockOnFileSelect} />
-    );
 
-    toggleFolder('Root'); // Expand Root
-    const notesFile = screen.getByText('Notes.txt');
-    fireEvent.click(notesFile);
+    render(<FileExplorer data={DATA} onFileSelect={mockOnFileSelect} />);
 
-    expect(mockOnFileSelect).toHaveBeenCalledWith(8); // Notes.txt file id is 8
+    toggleFolder('Home'); // Expand Home
+    toggleFolder('Documents'); // Expand Documents
+    toggleFolder('Work'); // Expand Work
+
+    const projectFile = screen.getByText('Project.docx');
+    fireEvent.click(projectFile);
+
+    expect(mockOnFileSelect).toHaveBeenCalledWith(4); // Project.docx file id is 4
   });
 
-  // Test for independent folder state management
-  test('Test 4', () => {
-    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
+  // Test for toggling multiple levels and preserving independent folder states
+  test('Test 3', () => {
+    render(<FileExplorer data={DATA} onFileSelect={() => {}} />);
 
-    toggleFolder('Root'); // Expand Root
-
+    toggleFolder('Home'); // Expand Home
     toggleFolder('Documents'); // Expand Documents
-    const resumeFile = screen.getByText('Resume.docx');
-    expect(resumeFile).toBeInTheDocument();
+    toggleFolder('Work'); // Expand Work
+
+    expect(screen.getByText('Project.docx')).toBeVisible(); // Project.docx should be visible
 
     toggleFolder('Photos'); // Expand Photos
-    const vacationFile = screen.getByText('Vacation.jpg');
-    expect(vacationFile).toBeInTheDocument();
+    toggleFolder('Vacations'); // Expand Vacations
 
+    expect(screen.getByText('Beach.jpg')).toBeVisible(); // Beach.jpg should be visible
+
+    // Collapse and expand individual folders to check independent state
     toggleFolder('Documents'); // Collapse Documents
-    expect(resumeFile).not.toBeVisible(); // Resume.docx should be hidden
-    expect(vacationFile).toBeVisible(); // Vacation.jpg should still be visible
+    expect(screen.queryByText('Project.docx')).toBeNull(); // Project.docx should be hidden
+    expect(screen.getByText('Beach.jpg')).toBeVisible(); // Beach.jpg should still be visible
 
     toggleFolder('Documents'); // Expand Documents again
-    expect(screen.getByText('Resume.docx')).toBeInTheDocument(); // Resume.docx should be visible again
+    expect(screen.getByText('Project.docx')).toBeVisible(); // Project.docx should be visible again
   });
 
-  // Test to check that clicking on an already expanded folder does not reset the state of its children
-  test('Test 5', () => {
-    render(<FileExplorer data={fileSystemData} onFileSelect={() => {}} />);
+  // Test for preserving child folder expansion state when parent is collapsed/expanded across multiple levels
+  test('Test 4', () => {
+    render(<FileExplorer data={DATA} onFileSelect={() => {}} />);
 
-    toggleFolder('Root'); // Expand Root
+    toggleFolder('Home'); // Expand Home
     toggleFolder('Documents'); // Expand Documents
+    toggleFolder('Work'); // Expand Work
+    toggleFolder('Photos'); // Expand Photos
+    toggleFolder('Vacations'); // Expand Vacations
 
-    expect(screen.queryByText('Resume.docx')).toBeInTheDocument(); // Resume.docx should be visible
+    expect(screen.getByText('Project.docx')).toBeVisible();
+    expect(screen.getByText('Beach.jpg')).toBeVisible();
 
-    toggleFolder('Root'); // Collapse Root
-    expect(screen.queryByText('Resume.docx')).not.toBeInTheDocument(); // Resume.docx should be hidden
+    // Collapse and check visibility at multiple levels
+    toggleFolder('Documents'); // Collapse Documents
+    expect(screen.queryByText('Project.docx')).toBeNull(); // Project.docx should be hidden
+    toggleFolder('Photos'); // Collapse Photos
+    expect(screen.queryByText('Beach.jpg')).toBeNull(); // Beach.jpg should be hidden
 
-    toggleFolder('Root'); // Expand Root again
-    expect(screen.queryByText('Resume.docx')).toBeInTheDocument(); // Resume.docx should still be visible
+    // Re-expand and check visibility again
+    toggleFolder('Documents'); // Expand Documents again
+    expect(screen.getByText('Project.docx')).toBeVisible(); // Project.docx should be visible
+    toggleFolder('Photos'); // Expand Photos again
+    expect(screen.getByText('Beach.jpg')).toBeVisible(); // Beach.jpg should be visible
+
+    // Collapse Home and ensure state is preserved for child folders
+    toggleFolder('Home'); // Collapse Home
+    expect(screen.queryByText('Project.docx')).toBeNull(); // Project.docx should be hidden
+    toggleFolder('Home'); // Expand Home again
+    expect(screen.getByText('Project.docx')).toBeVisible(); // Project.docx should still be visible
   });
 });

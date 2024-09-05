@@ -7,6 +7,7 @@ import { FileExplorer } from './components/fileExplorer';
 // styles
 import './styles.css';
 
+// mocks
 import { data } from './mock';
 
 export default function App() {
