@@ -1,5 +1,11 @@
 ### Problem Statement
 
+<br>
+<div style="border: 1px solid #ddd; border-radius: 5px; padding: 2px; display: inline-block;">
+  <img src="https://github.com/mayank992/Assets/blob/main/assessments/file_explorer.gif?raw=true" alt="Expected Behaviour" style="width: 400px; height: auto;"/>
+</div>
+<br>
+
 You need to implement a FileExplorer component in React that mimics the behavior of a typical file explorer system. This component should display a nested file and folder structure, provided as input data, with functionality for expanding/collapsing folders and selecting files.
 
 ### Requirements
@@ -29,12 +35,6 @@ Component Behavior:
 3. Files: Clicking on a file should trigger the onFileSelect callback, passing the file's id.
 4. The expanded/collapsed state of each folder should be maintained independently, meaning that expanding one folder does not affect the state of other folders.
 5. If a folder is collapsed and then re-expanded, the previously expanded/collapsed state of its child folders should be retained.
-
-<br>
-<div style="border: 1px solid #ddd; border-radius: 5px; padding: 2px; display: inline-block;">
-  <img src="https://github.com/mayank992/Assets/blob/main/assessments/file_explorer.gif?raw=true" alt="Expected Behaviour" style="width: 400px; height: auto;"/>
-</div>
-<br>
 
 ## Submission Instructions
 
